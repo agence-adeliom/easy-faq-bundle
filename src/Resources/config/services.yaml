@@ -1,0 +1,80 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Adeliom\EasyFaqBundle\Controller\:
+        resource: '../../Controller'
+        autowire: true
+        autoconfigure: true
+        tags: [ 'controller.service_arguments' ]
+
+    Adeliom\EasyFaqBundle\Controller\BaseEntryController:
+        calls:
+            - [ 'setRepositories', [ '@easy_faq.category.repository', '@easy_faq.entry.repository' ] ]
+
+    Adeliom\EasyFaqBundle\Controller\BaseCategoryController:
+        calls:
+            - [ 'setRepositories', [ '@easy_faq.category.repository', '@easy_faq.entry.repository' ] ]
+
+    easy_faq.entry.route_loader:
+        class: Adeliom\EasyFaqBundle\Routing\FaqEntryLoader
+        arguments:
+            - '%easy_faq.entry.controller%'
+            - '%easy_faq.entry.class%'
+            - '@easy_faq.entry.repository'
+            - '%easy_faq.page%'
+            - '%kernel.environment%'
+        tags: [ routing.loader ]
+
+    easy_faq.category.route_loader:
+        class: Adeliom\EasyFaqBundle\Routing\FaqCategoryLoader
+        arguments:
+            - '%easy_faq.category.controller%'
+            - '%easy_faq.category.class%'
+            - '@easy_faq.category.repository'
+            - '%easy_faq.page%'
+            - '%kernel.environment%'
+        tags: [ routing.loader ]
+
+    easy_faq.entry.repository:
+        class: '%easy_faq.entry.repository%'
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+            - '%easy_faq.entry.class%'
+        calls:
+            - [ 'setConfig', [ '%easy_faq.cache%' ] ]
+        tags: [ doctrine.repository_service ]
+
+    easy_faq.category.repository:
+        class: '%easy_faq.category.repository%'
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+            - '%easy_faq.category.class%'
+        calls:
+            - [ 'setConfig', [ '%easy_faq.cache%' ] ]
+        tags: [ doctrine.repository_service ]
+
+    Adeliom\EasyFaqBundle\EventListener\DoctrineMappingListener:
+        arguments:
+            - '%easy_faq.entry.class%'
+            - '%easy_faq.category.class%'
+        tags:
+            - doctrine.event_subscriber
+
+    easy_faq.sitemap.subscriber:
+        class: Adeliom\EasyFaqBundle\EventListener\SitemapSubscriber
+        arguments:
+            - "@router"
+            - "@easy_faq.entry.repository"
+            - "@easy_faq.category.repository"
+        tags:
+            - { name: "kernel.event_subscriber", priority: 100 }
+
+    Adeliom\EasyFaqBundle\EventListener\EntryListener:
+        arguments:
+            - "@easy_faq.entry.repository"
+            - "@easy_faq.category.repository"
+            - "%easy_faq.page%"
+        tags:
+            - kernel.event_subscriber

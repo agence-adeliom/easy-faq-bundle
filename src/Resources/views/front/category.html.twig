@@ -1,0 +1,36 @@
+{% extends '@EasyFaq/front/index.html.twig' %}
+
+{% block title %}{{- seo_title(category.name) -}}{% endblock %}
+
+{% block easy_page_head_metas %}{{- seo_metas(category.seo) -}}{% endblock %}
+
+{% block easy_page_page_content %}
+    <section>
+        <article>
+            <div class="row">
+                <div class="col-4">
+                    {% include "@EasyFaq/front/categories_menu.html.twig" %}
+                </div>
+                <div class="col-8">
+                    <div class="accordion" id="accordionExample">
+                        {% for entry in entries %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        {{ entry.question }}
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        {{ entry.answer | raw }}
+                                        <a href="{{ path('easy_faq_entry_index', {"category" : category.slug, "entry" : entry.slug}) }}" class="btn btn-primary">{{ "easy.faq.front.readmore" | trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}
