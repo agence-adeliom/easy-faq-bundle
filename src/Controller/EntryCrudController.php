@@ -26,10 +26,8 @@ abstract class EntryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
             ->addFormTheme('@EasyFields/form/association_widget.html.twig')
             ->addFormTheme('@EasyCommon/crud/custom_panel.html.twig')
-            ->addFormTheme('@EasyEditor/form/editor_widget.html.twig')
             ->addFormTheme('@EasyMedia/form/easy-media.html.twig')
 
             ->setPageTitle(Crud::PAGE_INDEX, "easy.faq.admin.crud.title.entry." . Crud::PAGE_INDEX)
@@ -88,7 +86,9 @@ abstract class EntryCrudController extends AbstractCrudController
             ->setRequired(true)
             ->setColumns(12);
 
-        yield EasyEditorField::new('content');
+        yield TextareaField::new('content', "easy.faq.admin.field.content")
+            ->setRequired(true)
+            ->setColumns(12);
     }
 
     public function metadataFields(string $pageName, $subject): iterable
