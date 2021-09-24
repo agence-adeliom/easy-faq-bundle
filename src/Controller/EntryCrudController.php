@@ -83,10 +83,6 @@ abstract class EntryCrudController extends AbstractCrudController
         yield TextareaField::new('answer', "easy.faq.admin.field.answer")
             ->setRequired(true)
             ->setColumns(12);
-
-        yield TextareaField::new('content', "easy.faq.admin.field.content")
-            ->setRequired(true)
-            ->setColumns(12);
     }
 
     public function metadataFields(string $pageName, $subject): iterable

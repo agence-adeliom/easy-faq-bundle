@@ -55,13 +55,6 @@ class EntryEntity {
     protected $answer;
 
     /**
-     * @var array|null
-     * @ORM\Column(name="content", type="json", nullable=true)
-     * @Assert\Type("array")
-     */
-    protected $content = [];
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="css", type="text", nullable=true)
@@ -210,22 +203,6 @@ class EntryEntity {
         if(empty($this->getSEO()->title)){
             $this->getSEO()->title = $this->getName();
         }
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getContent(): ?array
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param array|null $content
-     */
-    public function setContent(?array $content): void
-    {
-        $this->content = $content;
     }
 
     /**
