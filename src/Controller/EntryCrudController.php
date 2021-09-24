@@ -4,7 +4,6 @@ namespace Adeliom\EasyFaqBundle\Controller;
 
 
 use Adeliom\EasyCommonBundle\Enum\ThreeStateStatusEnum;
-use Adeliom\EasyEditorBundle\Admin\Field\EasyEditorField;
 use Adeliom\EasyFieldsBundle\Admin\Field\AssociationField;
 use Adeliom\EasyFieldsBundle\Admin\Field\EnumField;
 use Adeliom\EasySeoBundle\Admin\Field\SEOField;
@@ -18,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 abstract class EntryCrudController extends AbstractCrudController
 {
