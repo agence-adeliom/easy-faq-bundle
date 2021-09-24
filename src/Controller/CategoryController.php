@@ -6,7 +6,7 @@ use Adeliom\EasyFaqBundle\Event\EasyFaqCategoryEvent;
 use Adeliom\EasyFaqBundle\Repository\CategoryRepository;
 use Adeliom\EasyFaqBundle\Repository\EntryRepository;
 use Adeliom\EasySeoBundle\Entity\SEO;
-use Adeliom\EasySeoBundle\Services\BreadCrumbCollection;
+use Adeliom\EasySeoBundle\Services\BreadcrumbCollection;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +38,7 @@ class CategoryController extends AbstractController
     protected $eventDispatcher;
 
     /**
-     * @var BreadCrumbCollection
+     * @var BreadcrumbCollection
      */
     protected $breadcrumb;
 
@@ -48,7 +48,7 @@ class CategoryController extends AbstractController
         $this->entryRepository = $entryRepository;
     }
 
-    public function index(Request $request, string $category = '', string $_locale = null, EventDispatcherInterface $eventDispatcher, BreadCrumbCollection $breadcrumb): Response
+    public function index(Request $request, string $category = '', string $_locale = null, EventDispatcherInterface $eventDispatcher, BreadcrumbCollection $breadcrumb): Response
     {
 
         $this->eventDispatcher = $eventDispatcher;
