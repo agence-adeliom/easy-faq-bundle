@@ -20,8 +20,7 @@ composer require agence-adeliom/easy-faq-bundle
 
 ## Documentation
 
-TODO
-
+[Check it here](doc/index.md)
 
 ## License
 
