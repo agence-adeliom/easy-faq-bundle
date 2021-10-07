@@ -29,15 +29,6 @@ class EntryController extends AbstractController
      */
     protected $entryRepository;
 
-    /**
-     * @var EntryRepository
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var BreadcrumbCollection
-     */
-    protected $breadcrumb;
 
     public function setRepositories(CategoryRepository $categoryRepository, EntryRepository $entryRepository)
     {

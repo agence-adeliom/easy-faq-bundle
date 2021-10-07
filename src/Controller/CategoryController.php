@@ -30,17 +30,7 @@ class CategoryController extends AbstractController
      * @var EntryRepository
      */
     protected $entryRepository;
-
-
-    /**
-     * @var EntryRepository
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var BreadcrumbCollection
-     */
-    protected $breadcrumb;
+    
 
     public function setRepositories(CategoryRepository $categoryRepository, EntryRepository $entryRepository)
     {
