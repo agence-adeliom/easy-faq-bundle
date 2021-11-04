@@ -73,7 +73,7 @@ class EntryRepository extends ServiceEntityRepository {
     public function getByCategory(CategoryEntity $categoryEntity, bool $returnQueryBuilder = false)
     {
         $qb = $this->getPublishedQuery();
-        $qb->andWhere(':category MEMBER OF entry.categories')
+        $qb->andWhere('entry.category = :category')
             ->setParameter('category', $categoryEntity)
         ;
         if ($returnQueryBuilder){
@@ -94,7 +94,7 @@ class EntryRepository extends ServiceEntityRepository {
         $qb->andWhere('entry.slug = :slug')
             ->setParameter('slug', $slug);
         if ($categoryEntity) {
-            $qb->andWhere(':category MEMBER OF entry.categories')
+            $qb->andWhere('entry.category = :category')
                 ->setParameter('category', $categoryEntity);
         }
         $qb->setMaxResults(1);

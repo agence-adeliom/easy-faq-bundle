@@ -38,15 +38,9 @@ class EntryEntity {
     }
 
     /**
-     * @var CategoryEntity[] | null
+     * @var CategoryEntity | null
      */
-    protected $categories;
-
-    /**
-     * @var string | null
-     * @ORM\Column(type="string")
-     */
-    protected $question;
+    protected $category;
 
     /**
      * @var string | null
@@ -75,75 +69,22 @@ class EntryEntity {
         $this->__TimestampableConstruct();
         $this->__PublishableConstruct();
         $this->__SEOConstruct();
-        $this->categories = new ArrayCollection();
     }
 
     /**
      * @return CategoryEntity|null
      */
-    public function getMainCategory()
+    public function getCategory()
     {
-        return !empty($this->categories) && isset($this->categories[0]) ? $this->categories[0] : null;
+        return $this->category;
     }
 
     /**
-     * @return BaseCategoryEntity[]|null
+     * @param CategoryEntity|null $category
      */
-    public function getCategories()
+    public function setCategory(?CategoryEntity $category): void
     {
-        return $this->categories;
-    }
-
-    /**
-     * @param CategoryEntity[]|null $categories
-     */
-    public function setCategories(?array $categories): void
-    {
-        $this->categories = $categories;
-    }
-
-    /**
-     * @param CategoryEntity $categoryEntity
-     *
-     * @return EntryEntity
-     */
-    public function addCategorie(CategoryEntity $categoryEntity)
-    {
-        if (!$this->categories->contains($categoryEntity)) {
-            $this->categories->add($categoryEntity);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param CategoryEntity $categoryEntity
-     *
-     * @return EntryEntity
-     */
-    public function removeCategory(CategoryEntity $categoryEntity)
-    {
-        if ($this->categories->contains($categoryEntity)) {
-            $this->categories->removeElement($categoryEntity);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getQuestion(): ?string
-    {
-        return $this->question;
-    }
-
-    /**
-     * @param string|null $question
-     */
-    public function setQuestion(?string $question): void
-    {
-        $this->question = $question;
+        $this->category = $category;
     }
 
     /**

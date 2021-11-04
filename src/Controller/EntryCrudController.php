@@ -67,16 +67,7 @@ abstract class EntryCrudController extends AbstractCrudController
     public function informationsFields(string $pageName, $subject): iterable
     {
         yield FormField::addPanel("easy.faq.admin.panel.information")->addCssClass("col-12");
-        yield TextField::new('name', "easy.faq.admin.field.name")
-            ->setRequired(true)
-            ->setColumns(12);
-
-        yield AssociationField::new("categories", "easy.faq.admin.field.categories")
-            ->autocomplete()
-            ->listSelector(true)
-            ->setCrudController($this->getParameter("easy_faq.category.crud"))
-        ;
-        yield TextField::new('question', "easy.faq.admin.field.question")
+        yield TextField::new('name', "easy.faq.admin.field.question")
             ->setRequired(true)
             ->setColumns(12);
 
@@ -94,6 +85,11 @@ abstract class EntryCrudController extends AbstractCrudController
             ->setTargetFieldName('name')
             ->setUnlockConfirmationMessage("easy.faq.admin.field.slug_edit")
             ->setColumns(12);
+        yield AssociationField::new("category", "easy.faq.admin.field.category")
+            ->autocomplete()
+            ->listSelector(true)
+            ->setCrudController($this->getParameter("easy_faq.category.crud"))
+        ;
     }
 
     public function seoFields(string $pageName, $subject): iterable
