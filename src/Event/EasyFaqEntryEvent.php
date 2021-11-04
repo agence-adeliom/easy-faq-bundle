@@ -14,7 +14,7 @@ class EasyFaqEntryEvent extends Event
     protected $args;
     protected $template;
 
-    public function __construct(BaseEntryEntity $entry, $args, $template)
+    public function __construct($entry, $args, $template)
     {
         $this->entry = $entry;
         $this->args = $args;

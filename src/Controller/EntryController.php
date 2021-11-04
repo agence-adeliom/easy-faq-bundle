@@ -54,6 +54,7 @@ class EntryController extends AbstractController
         $template = '@EasyFaq/front/entry.html.twig';
 
         $categories = $this->categoryRepository->getPublished();
+
         $category = $request->attributes->get("_easy_faq_category");
         $entry = $request->attributes->get("_easy_faq_entry");
 
