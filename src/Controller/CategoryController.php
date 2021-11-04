@@ -57,7 +57,7 @@ class CategoryController extends AbstractController
 
         $template = '@EasyFaq/front/category.html.twig';
 
-        $category = $this->request->attributes->get("_easy_faq_category");
+        $category = $request->attributes->get("_easy_faq_category");
         $categories = $this->categoryRepository->getPublished();
         $entriesQueryBuilder = $this->entryRepository->getByCategory($category, true);
 

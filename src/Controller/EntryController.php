@@ -54,8 +54,8 @@ class EntryController extends AbstractController
         $template = '@EasyFaq/front/entry.html.twig';
 
         $categories = $this->categoryRepository->getPublished();
-        $category = $this->categoryRepository->getBySlug($category);
-        $entry = $this->entryRepository->getBySlug($entry, $category);
+        $category = $request->attributes->get("_easy_faq_category");
+        $entry = $request->attributes->get("_easy_faq_entry");
 
         $breadcrumb->addRouteItem($category->getName(), ['route' => "easy_faq_category_index", 'params' => ['category' => $category->getSlug()]]);
         $breadcrumb->addRouteItem($entry->getName(), ['route' => "easy_faq_entry_index", 'params' => ['category' => $category->getSlug(), 'entry' => $entry->getSlug()]]);

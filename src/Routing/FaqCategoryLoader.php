@@ -43,7 +43,7 @@ class FaqCategoryLoader extends Loader
         $requirements = [
             'category' => "([a-zA-Z0-9_-]+\/?)*",
         ];
-        $route = new Route($path, $defaults, $requirements, [], '', [], [], "request.attributes.has('_easy_faq_category') || request.attributes.get('_easy_faq_root') === true");
+        $route = new Route($path, $defaults, $requirements, [], '', [], [], "request.attributes.has('_easy_faq_category') || request.attributes.has('_easy_faq_root')");
 
         // add the new route to the route collection
         $routeName = 'easy_faq_category_index';
