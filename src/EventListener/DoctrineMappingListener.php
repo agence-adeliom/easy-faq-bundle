@@ -55,15 +55,11 @@ class DoctrineMappingListener implements EventSubscriber
 
     private function processEntriesMetadata(ClassMetadata $classMetadata): void
     {
-        if (!$classMetadata->hasAssociation('categories')) {
-            $classMetadata->mapManyToMany([
-                'fieldName' => 'categories',
+        if (!$classMetadata->hasAssociation('category')) {
+            $classMetadata->mapManyToOne([
+                'fieldName' => 'category',
                 'targetEntity' => $this->categoryClass,
-                'inversedBy' => 'entries',
-                'cascade' => ['persist'],
-                'joinTable' => [
-                    'name' => "faq_categories_entries"
-                ]
+                'inversedBy' => 'entries'
             ]);
         }
     }
@@ -71,12 +67,10 @@ class DoctrineMappingListener implements EventSubscriber
     private function processCategoriesMetadata(ClassMetadata $classMetadata): void
     {
         if (!$classMetadata->hasAssociation('entries')) {
-            $classMetadata->mapManyToMany([
+            $classMetadata->mapOneToMany([
                 'fieldName' => 'entries',
                 'targetEntity' => $this->entryClass,
-                'mappedBy' => 'categories',
-                'orphanRemoval' => false,
-                'cascade' => ['persist'],
+                'mappedBy' => 'category'
             ]);
         }
     }
