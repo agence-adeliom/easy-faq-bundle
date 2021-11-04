@@ -30,13 +30,6 @@ class CategoryController extends AbstractController
      * @var EntryRepository
      */
     protected $entryRepository;
-    
-
-    public function setRepositories(CategoryRepository $categoryRepository, EntryRepository $entryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-        $this->entryRepository = $entryRepository;
-    }
 
     public static function getSubscribedServices(): array
     {
@@ -48,10 +41,12 @@ class CategoryController extends AbstractController
 
     public function index(Request $request, string $category = '', string $_locale = null): Response
     {
-
         $breadcrumb = $this->get('easy_seo.breadcrumb');
         $this->request = $request;
         $this->request->setLocale($_locale ?: $this->request->getLocale());
+
+        $this->categoryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.category.class'));
+        $this->entryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.entry.class'));
 
         $breadcrumb->addRouteItem('homepage', ['route' => "easy_page_index"]);
         $breadcrumb->addRouteItem('faq', ['route' => "easy_faq_category_index"]);

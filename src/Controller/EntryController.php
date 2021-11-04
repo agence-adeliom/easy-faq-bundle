@@ -30,12 +30,6 @@ class EntryController extends AbstractController
     protected $entryRepository;
 
 
-    public function setRepositories(CategoryRepository $categoryRepository, EntryRepository $entryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-        $this->entryRepository = $entryRepository;
-    }
-
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -54,6 +48,8 @@ class EntryController extends AbstractController
         $breadcrumb->addRouteItem('homepage', ['route' => "easy_page_index"]);
         $breadcrumb->addRouteItem('faq', ['route' => "easy_faq_category_index"]);
 
+        $this->categoryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.category.class'));
+        $this->entryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.entry.class'));
 
         $template = '@EasyFaq/front/entry.html.twig';
 
