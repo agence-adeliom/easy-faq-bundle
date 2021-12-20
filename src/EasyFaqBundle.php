@@ -7,6 +7,9 @@ use Adeliom\EasyFaqBundle\DependencyInjection\EasyFaqExtension;
 
 class EasyFaqBundle extends Bundle
 {
+    /**
+     * @return ExtensionInterface|null The container extension
+     */
     public function getContainerExtension()
     {
         return new EasyFaqExtension();
