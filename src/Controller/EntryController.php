@@ -2,7 +2,6 @@
 
 namespace Adeliom\EasyFaqBundle\Controller;
 
-use Adeliom\EasyFaqBundle\Event\EasyFaqCategoryEvent;
 use Adeliom\EasyFaqBundle\Event\EasyFaqEntryEvent;
 use Adeliom\EasyFaqBundle\Repository\CategoryRepository;
 use Adeliom\EasyFaqBundle\Repository\EntryRepository;
@@ -69,9 +68,9 @@ class EntryController extends AbstractController
         ];
         $event = new EasyFaqEntryEvent($entry, $args, $template);
         /**
-         * @var EasyFaqCategoryEvent $result;
+         * @var EasyFaqEntryEvent $result;
          */
-        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqCategoryEvent::NAME);
+        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqEntryEvent::NAME);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }

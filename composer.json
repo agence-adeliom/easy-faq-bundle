@@ -1,7 +1,7 @@
 {
   "name": "agence-adeliom/easy-faq-bundle",
   "type": "symfony-bundle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Symfony simple FAQ bundle for EasyAdmin",
   "keywords": ["symfony", "easyadmin", "faq"],
   "homepage": "https://github.com/agence-adeliom/easy-faq-bundle",
