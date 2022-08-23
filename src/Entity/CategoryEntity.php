@@ -13,52 +13,42 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @UniqueEntity("slug")
- * @ORM\HasLifecycleCallbacks()
- * @ORM\MappedSuperclass(repositoryClass="Adeliom\EasyFaqBundle\Repository\EntryRepository")
- */
-class CategoryEntity {
-
+#[UniqueEntity('slug')]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\MappedSuperclass(repositoryClass: 'Adeliom\EasyFaqBundle\Repository\EntryRepository')]
+class CategoryEntity
+{
     use EntityIdTrait;
     use EntityTimestampableTrait {
         EntityTimestampableTrait::__construct as private __TimestampableConstruct;
     }
-
     use EntityNameSlugTrait;
     use EntityStatusTrait;
     use EntitySeoTrait {
         EntitySeoTrait::__construct as private __SEOConstruct;
     }
-
     /**
      * @var BaseEntryEntity[] | null
      */
     protected $entries;
-
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="css", type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[ORM\Column(name: 'css', type: 'text', nullable: true)]
+    #[Assert\Type('string')]
     protected $css;
-
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="js", type="text", nullable=true)
-     * @Assert\Type("string")
      */
+    #[ORM\Column(name: 'js', type: 'text', nullable: true)]
+    #[Assert\Type('string')]
     protected $js;
-
     public function __construct()
     {
         $this->__TimestampableConstruct();
         $this->__SEOConstruct();
         $this->entries     = new ArrayCollection();
     }
-
     /**
      * @return EntryEntity[]|ArrayCollection
      */
@@ -66,7 +56,6 @@ class CategoryEntity {
     {
         return $this->entries;
     }
-
     public function addEntry(EntryEntity $entry): void
     {
         $this->entries->add($entry);
@@ -74,13 +63,11 @@ class CategoryEntity {
             $entry->setCategory($this);
         }
     }
-
     public function removeEntry(EntryEntity $entry): void
     {
         $this->entries->removeElement($entry);
         $entry->setCategory(null);
     }
-
     /**
      * @return string|null
      */
@@ -88,7 +75,6 @@ class CategoryEntity {
     {
         return $this->css;
     }
-
     /**
      * @param string $css
      */
@@ -96,7 +82,6 @@ class CategoryEntity {
     {
         $this->css = $css;
     }
-
     /**
      * @return string|null
      */
@@ -104,7 +89,6 @@ class CategoryEntity {
     {
         return $this->js;
     }
-
     /**
      * @param string $js
      */
@@ -112,22 +96,16 @@ class CategoryEntity {
     {
         $this->js = $js;
     }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function setSeoTitle(LifecycleEventArgs $event): void
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setSeoTitle(LifecycleEventArgs $event) : void
     {
         if(empty($this->getSEO()->title)){
             $this->getSEO()->title = $this->getName();
         }
     }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function onRemove(LifecycleEventArgs $event): void
+    #[ORM\PreRemove]
+    public function onRemove(LifecycleEventArgs $event) : void
     {
         $this->setStatus(false);
         $this->setName($this->getName() . '-'.$this->getId().'-deleted');
