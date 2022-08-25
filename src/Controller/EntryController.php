@@ -44,7 +44,7 @@ class EntryController extends AbstractController
 
     public function index(Request $request, string $category = '', string $entry = '', string $_locale = null): Response
     {
-        $breadcrumb = $this->get('easy_seo.breadcrumb');
+        $breadcrumb = $this->container->get('easy_seo.breadcrumb');
 
         $this->request = $request;
         $this->request->setLocale($_locale ?: $this->request->getLocale());
@@ -75,7 +75,7 @@ class EntryController extends AbstractController
         /**
          * @var EasyFaqEntryEvent $result;
          */
-        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqEntryEvent::NAME);
+        $result = $this->container->get("event_dispatcher")->dispatch($event, EasyFaqEntryEvent::NAME);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }

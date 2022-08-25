@@ -46,7 +46,7 @@ class CategoryController extends AbstractController
 
     public function index(Request $request, string $category = '', string $_locale = null): Response
     {
-        $breadcrumb = $this->get('easy_seo.breadcrumb');
+        $breadcrumb = $this->container->get('easy_seo.breadcrumb');
         $this->request = $request;
         $this->request->setLocale($_locale ?: $this->request->getLocale());
 
@@ -82,7 +82,7 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqCategoryEvent::NAME);
+        $result = $this->container->get("event_dispatcher")->dispatch($event, EasyFaqCategoryEvent::NAME);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
@@ -90,7 +90,7 @@ class CategoryController extends AbstractController
     public function faqRoot(): Response
     {
         $template = '@EasyFaq/front/root.html.twig';
-        $breadcrumb = $this->get('easy_seo.breadcrumb');
+        $breadcrumb = $this->container->get('easy_seo.breadcrumb');
         $categories = $this->categoryRepository->getPublished();
         $entriesQueryBuilder = $this->entryRepository->getPublished(true);
 
@@ -111,7 +111,7 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqCategoryEvent::NAME);
+        $result = $this->container->get("event_dispatcher")->dispatch($event, EasyFaqCategoryEvent::NAME);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
