@@ -2,7 +2,6 @@
 
 namespace Adeliom\EasyFaqBundle\Controller;
 
-
 use Adeliom\EasyCommonBundle\Enum\ThreeStateStatusEnum;
 use Adeliom\EasyFieldsBundle\Admin\Field\AssociationField;
 use Adeliom\EasyFieldsBundle\Admin\Field\EnumField;
@@ -23,7 +22,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
 
 abstract class EntryCrudController extends AbstractCrudController
 {
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -42,7 +40,7 @@ abstract class EntryCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        $filters->add(ChoiceFilter::new("state","Status")->setChoices(ThreeStateStatusEnum::toArray()));
+        $filters->add(ChoiceFilter::new("state", "Status")->setChoices(ThreeStateStatusEnum::toArray()));
         return $filters;
     }
 
@@ -58,6 +56,7 @@ abstract class EntryCrudController extends AbstractCrudController
                 $actions->add($page, $action->getAsConfigObject());
             }
         }
+
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
         return $actions;
     }

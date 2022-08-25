@@ -4,69 +4,52 @@ namespace Adeliom\EasyFaqBundle\EventListener;
 
 use Adeliom\EasyFaqBundle\Repository\CategoryRepository;
 use Adeliom\EasyFaqBundle\Repository\EntryRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SitemapSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    /**
-     * @var EntryRepository
-     */
-    private $entryRepository;
-
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EntryRepository  $entryRepository
-     * @param CategoryRepository  $categoryRepository
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntryRepository $entryRepository, CategoryRepository $categoryRepository)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->entryRepository = $entryRepository;
-        $this->categoryRepository = $categoryRepository;
+    public function __construct(
+        /**
+         * @readonly
+         */
+        private UrlGeneratorInterface $urlGenerator,
+        /**
+         * @readonly
+         */
+        private EntryRepository $entryRepository,
+        /**
+         * @readonly
+         */
+        private CategoryRepository $categoryRepository
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'populate',
+            SitemapPopulateEvent::class => 'populate',
         ];
     }
 
-    /**
-     * @param SitemapPopulateEvent $event
-     */
     public function populate(SitemapPopulateEvent $event): void
     {
         $this->registerFaqCategoriesUrls($event->getUrlContainer());
         $this->registerFaqEntrysUrls($event->getUrlContainer());
     }
 
-    /**
-     * @param UrlContainerInterface $urls
-     */
     public function registerFaqCategoriesUrls(UrlContainerInterface $urls): void
     {
         $categories = $this->categoryRepository->getPublished();
 
         foreach ($categories as $category) {
-            if($category->getSEO()->sitemap) {
+            if ($category->getSEO()->sitemap) {
                 $urls->addUrl(
                     new UrlConcrete(
                         $this->urlGenerator->generate(
@@ -81,15 +64,12 @@ class SitemapSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param UrlContainerInterface $urls
-     */
     public function registerFaqEntrysUrls(UrlContainerInterface $urls): void
     {
         $entries = $this->entryRepository->getPublished();
 
         foreach ($entries as $entry) {
-            if($entry->getSEO()->sitemap) {
+            if ($entry->getSEO()->sitemap) {
                 $urls->addUrl(
                     new UrlConcrete(
                         $this->urlGenerator->generate(

@@ -29,11 +29,16 @@ class EntryController extends AbstractController
     protected $entryRepository;
 
 
+    public function __construct(private \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    {
+    }
+
+
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            'event_dispatcher' => '?'.EventDispatcherInterface::class,
-            'easy_seo.breadcrumb' => '?'.BreadcrumbCollection::class,
+            'event_dispatcher' => '?' . EventDispatcherInterface::class,
+            'easy_seo.breadcrumb' => '?' . BreadcrumbCollection::class,
         ]);
     }
 
@@ -47,8 +52,8 @@ class EntryController extends AbstractController
         $breadcrumb->addRouteItem('homepage', ['route' => "easy_page_index"]);
         $breadcrumb->addRouteItem('faq', ['route' => "easy_faq_category_index"]);
 
-        $this->categoryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.category.class'));
-        $this->entryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.entry.class'));
+        $this->categoryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.category.class'));
+        $this->entryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.entry.class'));
 
         $template = '@EasyFaq/front/entry.html.twig';
 
@@ -74,5 +79,4 @@ class EntryController extends AbstractController
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
-
 }

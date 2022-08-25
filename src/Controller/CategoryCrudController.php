@@ -16,11 +16,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class CategoryCrudController extends AbstractCrudController
 {
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -40,7 +38,7 @@ abstract class CategoryCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        $filters->add(ChoiceFilter::new("state","Status")->setChoices(ThreeStateStatusEnum::toArray()));
+        $filters->add(ChoiceFilter::new("state", "Status")->setChoices(ThreeStateStatusEnum::toArray()));
         return $filters;
     }
 
@@ -56,6 +54,7 @@ abstract class CategoryCrudController extends AbstractCrudController
                 $actions->add($page, $action->getAsConfigObject());
             }
         }
+
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
         return $actions;
     }

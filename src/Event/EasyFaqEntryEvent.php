@@ -7,18 +7,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class EasyFaqEntryEvent extends Event
 {
-
+    /**
+     * @var string
+     */
     public const NAME = "EasyFaq.entry.before_render";
 
-    protected $entry;
-    protected $args;
-    protected $template;
 
-    public function __construct($entry, $args, $template)
+    public function __construct(protected $entry, protected $args, protected $template)
     {
-        $this->entry = $entry;
-        $this->args = $args;
-        $this->template = $template;
     }
 
     /**
@@ -54,5 +50,4 @@ class EasyFaqEntryEvent extends Event
     {
         $this->template = $template;
     }
-
 }

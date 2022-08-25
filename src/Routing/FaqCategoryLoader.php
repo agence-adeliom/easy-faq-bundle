@@ -9,26 +9,29 @@ use Symfony\Component\Routing\RouteCollection;
 
 class FaqCategoryLoader extends Loader
 {
-    private $isLoaded = false;
+    private bool $isLoaded = false;
 
-    private $controller;
-    private $entity;
-    private $repository;
-    private $config;
-
-    public function __construct(string $controller, string $entity, CategoryRepository $repository, array $config, string $env = null)
-    {
+    public function __construct(/**
+         * @readonly
+         */
+        private string $controller, /**
+         * @readonly
+         */
+        private string $entity, /**
+         * @readonly
+         */
+        private CategoryRepository $repository, /**
+         * @readonly
+         */
+        private array $config,
+        string $env = null
+    ) {
         parent::__construct($env);
-
-        $this->controller = $controller;
-        $this->config = $config;
-        $this->entity = $entity;
-        $this->repository = $repository;
     }
 
-    public function load($resource, string $type = null)
+    public function load($resource, string $type = null): RouteCollection
     {
-        if (true === $this->isLoaded) {
+        if ($this->isLoaded) {
             throw new \RuntimeException('Do not add the "easy_faq_category" loader twice');
         }
 
@@ -54,7 +57,7 @@ class FaqCategoryLoader extends Loader
         return $routes;
     }
 
-    public function supports($resource, string $type = null)
+    public function supports($resource, string $type = null): bool
     {
         return 'easy_faq_category' === $type;
     }

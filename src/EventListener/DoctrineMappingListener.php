@@ -2,7 +2,6 @@
 
 namespace Adeliom\EasyFaqBundle\EventListener;
 
-
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
@@ -14,23 +13,19 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  */
 class DoctrineMappingListener implements EventSubscriber
 {
-    /**
-     * @var string
-     */
-    private $entryClass;
-
-    /**
-     * @var string
-     */
-    private $categoryClass;
-
-    public function __construct(string $entryClass, string $categoryClass)
-    {
-        $this->entryClass = $entryClass;
-        $this->categoryClass = $categoryClass;
+    public function __construct(
+        /**
+         * @readonly
+         */
+        private string $entryClass,
+        /**
+         * @readonly
+         */
+        private string $categoryClass
+    ) {
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [Events::loadClassMetadata];
     }

@@ -31,11 +31,16 @@ class CategoryController extends AbstractController
      */
     protected $entryRepository;
 
+
+    public function __construct(private \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    {
+    }
+
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            'event_dispatcher' => '?'.EventDispatcherInterface::class,
-            'easy_seo.breadcrumb' => '?'.BreadcrumbCollection::class,
+            'event_dispatcher' => '?' . EventDispatcherInterface::class,
+            'easy_seo.breadcrumb' => '?' . BreadcrumbCollection::class,
         ]);
     }
 
@@ -45,13 +50,13 @@ class CategoryController extends AbstractController
         $this->request = $request;
         $this->request->setLocale($_locale ?: $this->request->getLocale());
 
-        $this->categoryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.category.class'));
-        $this->entryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.entry.class'));
+        $this->categoryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.category.class'));
+        $this->entryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.entry.class'));
 
         $breadcrumb->addRouteItem('homepage', ['route' => "easy_page_index"]);
         $breadcrumb->addRouteItem('faq', ['route' => "easy_faq_category_index"]);
 
-        if($this->request->attributes->get("_easy_faq_root")){
+        if ($this->request->attributes->get("_easy_faq_root")) {
             return $this->faqRoot();
         }
 
@@ -82,7 +87,7 @@ class CategoryController extends AbstractController
         return $this->render($result->getTemplate(), $result->getArgs());
     }
 
-    public function faqRoot() : Response
+    public function faqRoot(): Response
     {
         $template = '@EasyFaq/front/root.html.twig';
         $breadcrumb = $this->get('easy_seo.breadcrumb');
