@@ -1,0 +1,12 @@
+<h4>{{ "easy.faq.front.categories" | trans }}</h4>
+<ul class="list-unstyled mb-0">
+    {% for cat in categories %}
+        <li>
+            {% if category is defined and cat.id == category.id %}
+                {{ cat.name }}
+            {% else %}
+                <a href="{{ path('easy_faq_category_index', {"category" : cat.slug}) }}">{{ cat.name }}</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

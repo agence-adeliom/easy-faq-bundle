@@ -1,0 +1,22 @@
+{% extends '@EasyFaq/front/index.html.twig' %}
+
+{% block title %}{{- seo_title(entry.name) -}}{% endblock %}
+
+{% block easy_page_head_metas %}{{- seo_metas(entry.seo) -}}{% endblock %}
+
+{% block easy_page_page_content %}
+    <section>
+        <article>
+            <div class="row">
+                <div class="col-4">
+                    {% include "@EasyFaq/front/categories_menu.html.twig" %}
+                </div>
+                <div class="col-8">
+                    <h1>{{ entry.name }}</h1>
+
+                    {{ entry.answer | raw }}
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}
