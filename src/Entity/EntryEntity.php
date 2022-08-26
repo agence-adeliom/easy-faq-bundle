@@ -10,65 +10,52 @@ use Adeliom\EasyCommonBundle\Traits\EntityThreeStateStatusTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityTimestampableTrait;
 use Adeliom\EasySeoBundle\Traits\EntitySeoTrait;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @UniqueEntity("slug")
- * @ORM\HasLifecycleCallbacks()
- * @ORM\MappedSuperclass(repositoryClass="Adeliom\EasyFaqBundle\Repository\EntryRepository")
- */
-class EntryEntity {
-
+#[UniqueEntity('slug')]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\MappedSuperclass(repositoryClass: \Adeliom\EasyFaqBundle\Repository\EntryRepository::class)]
+class EntryEntity
+{
     use EntityIdTrait;
     use EntityTimestampableTrait {
-        EntityTimestampableTrait::__construct as private __TimestampableConstruct;
+        EntityTimestampableTrait::__construct as private TimestampableConstruct;
     }
-
     use EntityNameSlugTrait;
     use EntityThreeStateStatusTrait;
     use EntityPublishableTrait {
-        EntityPublishableTrait::__construct as private __PublishableConstruct;
+        EntityPublishableTrait::__construct as private PublishableConstruct;
     }
-
     use EntitySeoTrait {
-        EntitySeoTrait::__construct as private __SEOConstruct;
+        EntitySeoTrait::__construct as private SEOConstruct;
     }
 
     /**
-     * @var CategoryEntity | null
+     * @var CategoryEntity|null
      */
     protected $category;
 
     /**
-     * @var string | null
-     * @ORM\Column(type="text")
-     */
-    protected $answer;
-
-    /**
      * @var string|null
-     *
-     * @ORM\Column(name="css", type="text", nullable=true)
-     * @Assert\Type("string")
      */
-    protected $css;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
+    protected ?string $answer = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="js", type="text", nullable=true)
-     * @Assert\Type("string")
-     */
-    protected $js;
+    #[ORM\Column(name: 'css', type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[Assert\Type('string')]
+    protected ?string $css = null;
+
+    #[ORM\Column(name: 'js', type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
+    #[Assert\Type('string')]
+    protected ?string $js = null;
 
     public function __construct()
     {
-        $this->__TimestampableConstruct();
-        $this->__PublishableConstruct();
-        $this->__SEOConstruct();
+        $this->TimestampableConstruct();
+        $this->PublishableConstruct();
+        $this->SEOConstruct();
     }
 
     /**
@@ -79,80 +66,55 @@ class EntryEntity {
         return $this->category;
     }
 
-    /**
-     * @param CategoryEntity|null $category
-     */
     public function setCategory(?CategoryEntity $category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAnswer(): ?string
     {
         return $this->answer;
     }
 
-    /**
-     * @param string|null $answer
-     */
     public function setAnswer(?string $answer): void
     {
         $this->answer = $answer;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCss(): ?string
     {
         return $this->css;
     }
 
-    /**
-     * @param string $css
-     */
     public function setCss(string $css): void
     {
         $this->css = $css;
     }
 
-    /**
-     * @return string|null
-     */
     public function getJs(): ?string
     {
         return $this->js;
     }
 
-    /**
-     * @param string $js
-     */
     public function setJs(string $js): void
     {
         $this->js = $js;
     }
 
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setSeoTitle(LifecycleEventArgs $event): void
     {
-        if(empty($this->getSEO()->title)){
+        if (empty($this->getSEO()->title)) {
             $this->getSEO()->title = $this->getName();
         }
     }
 
-    /**
-     * @ORM\PreRemove()
-     */
+    #[ORM\PreRemove]
     public function onRemove(LifecycleEventArgs $event): void
     {
         $this->setState(ThreeStateStatusEnum::UNPUBLISHED());
-        $this->setName($this->getName() . '-'.$this->getId().'-deleted');
-        $this->setSlug($this->getSlug() . '-'.$this->getId().'-deleted');
+        $this->setName($this->getName().'-'.$this->getId().'-deleted');
+        $this->setSlug($this->getSlug().'-'.$this->getId().'-deleted');
     }
 }

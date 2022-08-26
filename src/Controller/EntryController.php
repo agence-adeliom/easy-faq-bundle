@@ -28,6 +28,9 @@ class EntryController extends AbstractController
      */
     protected $entryRepository;
 
+    public function __construct(private \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    {
+    }
 
     public static function getSubscribedServices(): array
     {
@@ -39,40 +42,39 @@ class EntryController extends AbstractController
 
     public function index(Request $request, string $category = '', string $entry = '', string $_locale = null): Response
     {
-        $breadcrumb = $this->get('easy_seo.breadcrumb');
+        $breadcrumb = $this->container->get('easy_seo.breadcrumb');
 
         $this->request = $request;
         $this->request->setLocale($_locale ?: $this->request->getLocale());
 
-        $breadcrumb->addRouteItem('homepage', ['route' => "easy_page_index"]);
-        $breadcrumb->addRouteItem('faq', ['route' => "easy_faq_category_index"]);
+        $breadcrumb->addRouteItem('homepage', ['route' => 'easy_page_index']);
+        $breadcrumb->addRouteItem('faq', ['route' => 'easy_faq_category_index']);
 
-        $this->categoryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.category.class'));
-        $this->entryRepository = $this->getDoctrine()->getRepository($this->getParameter('easy_faq.entry.class'));
+        $this->categoryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.category.class'));
+        $this->entryRepository = $this->managerRegistry->getRepository($this->getParameter('easy_faq.entry.class'));
 
         $template = '@EasyFaq/front/entry.html.twig';
 
         $categories = $this->categoryRepository->getPublished();
 
-        $category = $request->attributes->get("_easy_faq_category");
-        $entry = $request->attributes->get("_easy_faq_entry");
+        $category = $request->attributes->get('_easy_faq_category');
+        $entry = $request->attributes->get('_easy_faq_entry');
 
-        $breadcrumb->addRouteItem($category->getName(), ['route' => "easy_faq_category_index", 'params' => ['category' => $category->getSlug()]]);
-        $breadcrumb->addRouteItem($entry->getName(), ['route' => "easy_faq_entry_index", 'params' => ['category' => $category->getSlug(), 'entry' => $entry->getSlug()]]);
+        $breadcrumb->addRouteItem($category->getName(), ['route' => 'easy_faq_category_index', 'params' => ['category' => $category->getSlug()]]);
+        $breadcrumb->addRouteItem($entry->getName(), ['route' => 'easy_faq_entry_index', 'params' => ['category' => $category->getSlug(), 'entry' => $entry->getSlug()]]);
 
         $args = [
             'categories' => $categories,
             'category' => $category,
-            'entry'  => $entry,
-            'breadcrumb' => $breadcrumb
+            'entry' => $entry,
+            'breadcrumb' => $breadcrumb,
         ];
         $event = new EasyFaqEntryEvent($entry, $args, $template);
         /**
          * @var EasyFaqEntryEvent $result;
          */
-        $result = $this->get("event_dispatcher")->dispatch($event, EasyFaqEntryEvent::NAME);
+        $result = $this->container->get('event_dispatcher')->dispatch($event, EasyFaqEntryEvent::NAME);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
-
 }

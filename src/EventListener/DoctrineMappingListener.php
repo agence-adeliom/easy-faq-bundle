@@ -2,7 +2,6 @@
 
 namespace Adeliom\EasyFaqBundle\EventListener;
 
-
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
@@ -14,23 +13,19 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  */
 class DoctrineMappingListener implements EventSubscriber
 {
-    /**
-     * @var string
-     */
-    private $entryClass;
-
-    /**
-     * @var string
-     */
-    private $categoryClass;
-
-    public function __construct(string $entryClass, string $categoryClass)
-    {
-        $this->entryClass = $entryClass;
-        $this->categoryClass = $categoryClass;
+    public function __construct(
+        /**
+         * @readonly
+         */
+        private string $entryClass,
+        /**
+         * @readonly
+         */
+        private string $categoryClass
+    ) {
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [Events::loadClassMetadata];
     }
@@ -40,8 +35,7 @@ class DoctrineMappingListener implements EventSubscriber
         /** @var ClassMetadata $classMetadata */
         $classMetadata = $eventArgs->getClassMetadata();
 
-
-        $isEntry     = is_a($classMetadata->getName(), $this->entryClass, true);
+        $isEntry = is_a($classMetadata->getName(), $this->entryClass, true);
         $isCategory = is_a($classMetadata->getName(), $this->categoryClass, true);
 
         if ($isEntry) {
@@ -59,7 +53,7 @@ class DoctrineMappingListener implements EventSubscriber
             $classMetadata->mapManyToOne([
                 'fieldName' => 'category',
                 'targetEntity' => $this->categoryClass,
-                'inversedBy' => 'entries'
+                'inversedBy' => 'entries',
             ]);
         }
     }
@@ -70,7 +64,7 @@ class DoctrineMappingListener implements EventSubscriber
             $classMetadata->mapOneToMany([
                 'fieldName' => 'entries',
                 'targetEntity' => $this->entryClass,
-                'mappedBy' => 'category'
+                'mappedBy' => 'category',
             ]);
         }
     }
