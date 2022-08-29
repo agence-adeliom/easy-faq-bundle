@@ -89,7 +89,7 @@ abstract class EntryCrudController extends AbstractCrudController
 
     public function metadataFields(string $pageName, $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.metadatas')->collapsible()->addCssClass('col-4');
+        yield FormField::addPanel('easy.faq.admin.panel.metadatas')->addCssClass('col-4');
         yield SlugField::new('slug', 'easy.faq.admin.field.slug')
             ->setRequired(true)
             ->hideOnIndex()
@@ -105,13 +105,13 @@ abstract class EntryCrudController extends AbstractCrudController
 
     public function seoFields(string $pageName, $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.seo')->collapsible()->addCssClass('col-4');
+        yield FormField::addPanel('easy.faq.admin.panel.seo')->addCssClass('col-4');
         yield SEOField::new('seo');
     }
 
     public function publishFields(string $pageName, $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.publication')->collapsible()->addCssClass('col-4');
+        yield FormField::addPanel('easy.faq.admin.panel.publication')->addCssClass('col-4');
         yield EnumField::new('state', 'easy.faq.admin.field.state')
             ->setEnum(ThreeStateStatusEnum::class)
             ->setRequired(true)
