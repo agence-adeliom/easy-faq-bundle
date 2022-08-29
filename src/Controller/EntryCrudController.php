@@ -26,7 +26,6 @@ abstract class EntryCrudController extends AbstractCrudController
     {
         return $crud
             ->addFormTheme('@EasyFields/form/association_widget.html.twig')
-            ->addFormTheme('@EasyCommon/crud/custom_panel.html.twig')
             ->addFormTheme('@EasyMedia/form/easy-media.html.twig')
 
             ->setPageTitle(Crud::PAGE_INDEX, 'easy.faq.admin.crud.title.entry.'.Crud::PAGE_INDEX)
@@ -69,15 +68,16 @@ abstract class EntryCrudController extends AbstractCrudController
         $subject = $context->getEntity();
 
         yield IdField::new('id')->hideOnForm();
+        yield FormField::addTab('easy.faq.admin.panel.information');
         yield from $this->informationsFields($pageName, $subject);
+        yield FormField::addTab('easy.faq.admin.panel.publication');
         yield from $this->seoFields($pageName, $subject);
-        yield from $this->publishFields($pageName, $subject);
         yield from $this->metadataFields($pageName, $subject);
+        yield from $this->publishFields($pageName, $subject);
     }
 
     public function informationsFields(string $pageName, $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.information')->addCssClass('col-12');
         yield TextField::new('name', 'easy.faq.admin.field.question')
             ->setRequired(true)
             ->setColumns(12);
