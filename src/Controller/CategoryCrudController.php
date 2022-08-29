@@ -22,7 +22,6 @@ abstract class CategoryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->addFormTheme('@EasyCommon/crud/custom_panel.html.twig')
             ->addFormTheme('@EasyMedia/form/easy-media.html.twig')
 
             ->setPageTitle(Crud::PAGE_INDEX, 'easy.faq.admin.crud.title.category.'.Crud::PAGE_INDEX)
@@ -65,9 +64,11 @@ abstract class CategoryCrudController extends AbstractCrudController
         $subject = $context->getEntity();
 
         yield IdField::new('id')->hideOnForm();
+        yield FormField::addTab('easy.faq.admin.panel.information');
         yield from $this->informationsFields($pageName, $subject);
-        yield from $this->metadataFields($pageName, $subject);
+        yield FormField::addTab('easy.faq.admin.panel.publication');
         yield from $this->seoFields($pageName, $subject);
+        yield from $this->metadataFields($pageName, $subject);
         yield from $this->publishFields($pageName, $subject);
     }
 
