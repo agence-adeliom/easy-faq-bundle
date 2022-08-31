@@ -67,8 +67,8 @@ abstract class EntryCrudController extends AbstractCrudController
         $context = $this->container->get(AdminContextProvider::class)->getContext();
         $subject = $context->getEntity();
 
-        yield IdField::new('id')->hideOnForm();
         yield FormField::addTab('easy.faq.admin.panel.information');
+        yield IdField::new('id')->hideOnForm();
         yield from $this->informationsFields($pageName, $subject);
         yield FormField::addTab('easy.faq.admin.panel.publication');
         yield from $this->seoFields($pageName, $subject);
