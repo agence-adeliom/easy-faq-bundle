@@ -39,9 +39,6 @@ class EntryEntity
      */
     protected $category;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
     protected ?string $answer = null;
 
