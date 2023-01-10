@@ -9,7 +9,9 @@ use Adeliom\EasyCommonBundle\Traits\EntityPublishableTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityThreeStateStatusTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityTimestampableTrait;
 use Adeliom\EasySeoBundle\Traits\EntitySeoTrait;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -103,7 +105,7 @@ class EntryEntity
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function setSeoTitle(LifecycleEventArgs $event): void
+    public function setSeoTitle(PrePersistEventArgs|PreUpdateEventArgs $event): void
     {
         if (empty($this->getSEO()->title)) {
             $this->getSEO()->title = $this->getName();
@@ -111,7 +113,7 @@ class EntryEntity
     }
 
     #[ORM\PreRemove]
-    public function onRemove(LifecycleEventArgs $event): void
+    public function onRemove(PreRemoveEventArgs $event): void
     {
         $this->setState(ThreeStateStatusEnum::UNPUBLISHED());
         $this->setName($this->getName().'-'.$this->getId().'-deleted');
