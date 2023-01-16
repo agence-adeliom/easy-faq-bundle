@@ -38,7 +38,8 @@ class FaqEntryLoader extends Loader
         $routes = new RouteCollection();
 
         // prepare a new route
-        $path = $this->config['root_path'].'/{category}/{entry}';
+        $hasTrailingSlash = str_ends_with($this->config['root_path'], '/');
+        $path = $this->config['root_path'].($hasTrailingSlash?'':'/').'{category}/{entry}'.($hasTrailingSlash?'/':'');
         $defaults = [
             '_controller' => $this->controller.'::index',
         ];
