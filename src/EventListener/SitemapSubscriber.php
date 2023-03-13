@@ -53,10 +53,11 @@ class SitemapSubscriber implements EventSubscriberInterface
                 $urls->addUrl(
                     new UrlConcrete(
                         $this->urlGenerator->generate(
-                            'easy_faq_index',
-                            ['slugs' => $category->getTree()],
+                            'easy_faq_category_index',
+                            ['category' => $category->getSlug()],
                             UrlGeneratorInterface::ABSOLUTE_URL
-                        )
+                        ),
+                        $category->getUpdatedAt()
                     ),
                     'faq'
                 );
@@ -73,10 +74,11 @@ class SitemapSubscriber implements EventSubscriberInterface
                 $urls->addUrl(
                     new UrlConcrete(
                         $this->urlGenerator->generate(
-                            'easy_faq_index',
-                            ['slugs' => $entry->getTree()],
+                            'easy_faq_entry_index',
+                            ['category' => $entry->getCategory()?->getSlug(), 'entry' => $entry->getSlug()],
                             UrlGeneratorInterface::ABSOLUTE_URL
-                        )
+                        ),
+                        $entry->getUpdatedAt()
                     ),
                     'faq'
                 );
