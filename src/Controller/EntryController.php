@@ -60,8 +60,8 @@ class EntryController extends AbstractController
         $category = $request->attributes->get('_easy_faq_category');
         $entry = $request->attributes->get('_easy_faq_entry');
 
-        $breadcrumb->addRouteItem($category->getName(), ['route' => 'easy_faq_category_index', 'params' => ['category' => $category->getSlug()]]);
-        $breadcrumb->addRouteItem($entry->getName(), ['route' => 'easy_faq_entry_index', 'params' => ['category' => $category->getSlug(), 'entry' => $entry->getSlug()]]);
+        $breadcrumb->addRouteItem($category->getName(), ['route' => 'easy_faq_category_index', 'params' => ['category' => $category->getSlug()]], $category);
+        $breadcrumb->addRouteItem($entry->getName(), ['route' => 'easy_faq_entry_index', 'params' => ['category' => $category->getSlug(), 'entry' => $entry->getSlug()]], $entry);
 
         $args = [
             'categories' => $categories,

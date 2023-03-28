@@ -69,7 +69,7 @@ class CategoryController extends AbstractController
             new QueryAdapter($entriesQueryBuilder)
         );
 
-        $breadcrumb->addRouteItem($category->getName(), ['route' => 'easy_faq_category_index', 'params' => ['category' => $category->getSlug()]]);
+        $breadcrumb->addRouteItem($category->getName(), ['route' => 'easy_faq_category_index', 'params' => ['category' => $category->getSlug()]], $category);
 
         $args = [
             'categories' => $categories,
