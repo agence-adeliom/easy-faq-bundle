@@ -68,6 +68,7 @@ services:
             - "@router"
             - "@easy_faq.entry.repository"
             - "@easy_faq.category.repository"
+            - "%easy_faq.sitemap%"
         tags:
             - { name: "kernel.event_subscriber", priority: 100 }
 
