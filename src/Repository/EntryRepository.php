@@ -56,9 +56,13 @@ class EntryRepository extends ServiceEntityRepository
             return $qb;
         }
 
-        return $qb->getQuery()
-            ->useResultCache($this->cacheEnabled, $this->cacheTtl)
-            ->getResult();
+        if ($this->cacheEnabled) {
+            $qb = $qb->getQuery()->enableResultCache($this->cacheTtl);
+        } else {
+            $qb = $qb->getQuery()->disableResultCache();
+        }
+
+        return $qb->getResult();
     }
 
     /**
@@ -74,9 +78,13 @@ class EntryRepository extends ServiceEntityRepository
             return $qb;
         }
 
-        return $qb->getQuery()
-            ->useResultCache($this->cacheEnabled, $this->cacheTtl)
-            ->getResult();
+        if ($this->cacheEnabled) {
+            $qb = $qb->getQuery()->enableResultCache($this->cacheTtl);
+        } else {
+            $qb = $qb->getQuery()->disableResultCache();
+        }
+
+        return $qb->getResult();
     }
 
     /**
