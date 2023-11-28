@@ -60,7 +60,7 @@ services:
             - '%easy_faq.entry.class%'
             - '%easy_faq.category.class%'
         tags:
-            - doctrine.event_subscriber
+            - { name: 'doctrine.event_listener', event: 'loadClassMetadata' }
 
     easy_faq.sitemap.subscriber:
         class: Adeliom\EasyFaqBundle\EventListener\SitemapSubscriber
