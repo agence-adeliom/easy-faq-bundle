@@ -39,7 +39,7 @@ class EntryRepository extends ServiceEntityRepository
 
         $qb->andWhere($orModule);
 
-        $qb->setParameter('state', ThreeStateStatusEnum::PUBLISHED());
+        $qb->setParameter('state', ThreeStateStatusEnum::PUBLISHED);
         $qb->setParameter('publishDate', new \DateTime());
         $qb->setParameter('unpublishDate', new \DateTime());
 

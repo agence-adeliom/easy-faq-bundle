@@ -115,7 +115,7 @@ class EntryEntity
     #[ORM\PreRemove]
     public function onRemove(PreRemoveEventArgs $event): void
     {
-        $this->setState(ThreeStateStatusEnum::UNPUBLISHED());
+        $this->setState(ThreeStateStatusEnum::UNPUBLISHED);
         $this->setName($this->getName().'-'.$this->getId().'-deleted');
         $this->setSlug($this->getSlug().'-'.$this->getId().'-deleted');
     }
