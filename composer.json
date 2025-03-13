@@ -43,7 +43,7 @@
             "Adeliom\\EasyFaqBundle\\": "src/"
         }
     },
-    "minimum-stability" : "dev",
+    "minimum-stability": "alpha",
     "repositories": [
         {
             "type": "path",
