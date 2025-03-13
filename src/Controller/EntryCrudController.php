@@ -4,7 +4,6 @@ namespace Adeliom\EasyFaqBundle\Controller;
 
 use Adeliom\EasyCommonBundle\Enum\ThreeStateStatusEnum;
 use Adeliom\EasyFieldsBundle\Admin\Field\AssociationField;
-use Adeliom\EasyFieldsBundle\Admin\Field\EnumField;
 use Adeliom\EasySeoBundle\Admin\Field\SEOField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -13,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -41,7 +41,7 @@ abstract class EntryCrudController extends AbstractCrudController
 
     public function configureFilters(Filters $filters): Filters
     {
-        $filters->add(ChoiceFilter::new('state', 'Status')->setChoices(ThreeStateStatusEnum::toArray()));
+        $filters->add(ChoiceFilter::new('state', 'Status')->setChoices(ThreeStateStatusEnum::cases()));
 
         return $filters;
     }
@@ -126,8 +126,8 @@ abstract class EntryCrudController extends AbstractCrudController
     public function publishFields(string $pageName, ?EntityDto $subject): iterable
     {
         yield FormField::addPanel('easy.faq.admin.panel.publication')->addCssClass('col-4');
-        yield EnumField::new('state', 'easy.faq.admin.field.state')
-            ->setEnum(ThreeStateStatusEnum::class)
+        yield ChoiceField::new('state', 'easy.faq.admin.field.state')
+            ->setChoices(ThreeStateStatusEnum::cases())
             ->setRequired(true)
             ->renderExpanded(true)
             ->renderAsBadges(true);
