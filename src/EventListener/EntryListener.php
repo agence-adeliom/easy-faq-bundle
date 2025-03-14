@@ -16,14 +16,8 @@ class EntryListener implements EventSubscriberInterface
      * @param mixed[] $config
      */
     public function __construct(
-        /**
-         * @readonly
-         */
-        private EntryRepository $entryRepository,
-        /**
-         * @readonly
-         */
-        private CategoryRepository $categoryRepository,
+        private readonly EntryRepository $entryRepository,
+        private readonly CategoryRepository $categoryRepository,
         private $config
     ) {
     }
@@ -57,7 +51,7 @@ class EntryListener implements EventSubscriberInterface
             $slugsArray = array_values(array_diff($slugsArray, $prefixes));
         }
 
-        if (!empty($slugsArray)) {
+        if ($slugsArray !== [] && $slugsArray !== false) {
             $category = $this->categoryRepository->getBySlug($slugsArray[0]);
             if ($category instanceof CategoryEntity) {
                 $event->getRequest()->attributes->set('_easy_faq_category', $category);
@@ -69,7 +63,7 @@ class EntryListener implements EventSubscriberInterface
                     }
                 }
             }
-        } elseif (!empty($prefixes) && ((is_countable($slugsArray) ? count($slugsArray) : 0) === 0)) {
+        } elseif ($prefixes !== [] && $prefixes !== false && ((is_countable($slugsArray) ? count($slugsArray) : 0) === 0)) {
             $event->getRequest()->attributes->set('_easy_faq_root', true);
         }
     }

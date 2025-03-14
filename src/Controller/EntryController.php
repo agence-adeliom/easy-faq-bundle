@@ -28,7 +28,7 @@ class EntryController extends AbstractController
      */
     protected $entryRepository;
 
-    public function __construct(private \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    public function __construct(private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
     {
     }
 

@@ -11,16 +11,7 @@ class FaqEntryLoader extends Loader
 {
     private bool $isLoaded = false;
 
-    public function __construct(/**
-         * @readonly
-         */
-        private string $controller, /**
-         * @readonly
-         */
-        private string $entity, /**
-         * @readonly
-         */
-        private EntryRepository $repository, /**
+    public function __construct(private readonly string $controller, private readonly string $entity, private readonly EntryRepository $repository, /**
          * @readonly
          */
         private array $config,
@@ -38,7 +29,7 @@ class FaqEntryLoader extends Loader
         $routes = new RouteCollection();
 
         // prepare a new route
-        $hasTrailingSlash = str_ends_with($this->config['root_path'], '/');
+        $hasTrailingSlash = str_ends_with((string) $this->config['root_path'], '/');
         $path = $this->config['root_path'].($hasTrailingSlash?'':'/').'{category}/{entry}'.($hasTrailingSlash?'/':'');
         $defaults = [
             '_controller' => $this->controller.'::index',
