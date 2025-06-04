@@ -40,7 +40,7 @@ class EntryController extends AbstractController
         ]);
     }
 
-    public function index(Request $request, string $category = '', string $entry = '', string $_locale = null): Response
+    public function index(Request $request, string $category = '', string $entry = '', ?string $_locale = null): Response
     {
         $breadcrumb = $this->container->get('easy_seo.breadcrumb');
 

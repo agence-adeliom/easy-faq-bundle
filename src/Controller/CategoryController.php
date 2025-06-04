@@ -43,7 +43,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    public function index(Request $request, string $category = '', string $_locale = null): Response
+    public function index(Request $request, string $category = '', ?string $_locale = null): Response
     {
         $breadcrumb = $this->container->get('easy_seo.breadcrumb');
         $this->request = $request;
