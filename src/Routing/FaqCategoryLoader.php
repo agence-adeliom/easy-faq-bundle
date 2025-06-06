@@ -15,7 +15,7 @@ class FaqCategoryLoader extends Loader
          * @readonly
          */
         private array $config,
-        string $env = null
+        ?string $env = null
     ) {
         parent::__construct($env);
     }
