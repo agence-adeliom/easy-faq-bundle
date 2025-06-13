@@ -79,7 +79,7 @@ abstract class CategoryCrudController extends AbstractCrudController
      */
     public function informationsFields(string $pageName, ?EntityDto $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.information')->addCssClass('col-8');
+        yield FormField::addFieldset('easy.faq.admin.panel.information')->addCssClass('col-8');
         yield TextField::new('name', 'easy.faq.admin.field.name')
             ->setRequired(true)
             ->setColumns(12);
@@ -90,7 +90,7 @@ abstract class CategoryCrudController extends AbstractCrudController
      */
     public function metadataFields(string $pageName, ?EntityDto $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.metadatas')->addCssClass('col-4');
+        yield FormField::addFieldset('easy.faq.admin.panel.metadatas')->addCssClass('col-4');
         yield SlugField::new('slug', 'easy.faq.admin.field.slug')
             ->setRequired(true)
             ->hideOnIndex()
@@ -104,7 +104,7 @@ abstract class CategoryCrudController extends AbstractCrudController
      */
     public function seoFields(string $pageName, ?EntityDto $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.seo')->addCssClass('col-4');
+        yield FormField::addFieldset('easy.faq.admin.panel.seo')->addCssClass('col-4');
         yield SEOField::new('seo');
     }
 
@@ -113,7 +113,7 @@ abstract class CategoryCrudController extends AbstractCrudController
      */
     public function publishFields(string $pageName, ?EntityDto $subject): iterable
     {
-        yield FormField::addPanel('easy.faq.admin.panel.publication')->addCssClass('col-4');
+        yield FormField::addFieldset('easy.faq.admin.panel.publication')->addCssClass('col-4');
         yield BooleanField::new('status', 'easy.faq.admin.field.state')
             ->setRequired(true)
             ->renderAsSwitch(true);
