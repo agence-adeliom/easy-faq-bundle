@@ -18,6 +18,7 @@ easy:
           entry:
             singular: une question
             plural: des questions
+            index: Liste des questions
             new: Nouvelle question
             edit: Editer la question
             delete: Supprimer la question
@@ -27,6 +28,7 @@ easy:
           category:
             singular: une catégorie
             plural: des catégories
+            index: Liste des catégorie
             new: Nouvelle catégorie
             edit: Editer la catégorie
             delete: Supprimer la catégorie

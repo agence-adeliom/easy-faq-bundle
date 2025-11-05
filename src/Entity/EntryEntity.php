@@ -8,6 +8,7 @@ use Adeliom\EasyCommonBundle\Traits\EntityNameSlugTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityPublishableTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityThreeStateStatusTrait;
 use Adeliom\EasyCommonBundle\Traits\EntityTimestampableTrait;
+use Adeliom\EasyEditorBundle\Types\EasyEditorType;
 use Adeliom\EasySeoBundle\Traits\EntitySeoTrait;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
@@ -41,8 +42,11 @@ class EntryEntity
      */
     protected $category;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
-    protected ?string $answer = null;
+    /**
+     * @var array<int, mixed>
+     */
+    #[ORM\Column(type: EasyEditorType::EASYEDITORTYPE, nullable: true)]
+    private array $answer = [];
 
     #[ORM\Column(name: 'css', type: \Doctrine\DBAL\Types\Types::TEXT, nullable: true)]
     #[Assert\Type('string')]
@@ -73,12 +77,18 @@ class EntryEntity
         $this->category = $category;
     }
 
-    public function getAnswer(): ?string
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAnswer(): array
     {
         return $this->answer;
     }
 
-    public function setAnswer(?string $answer): void
+    /**
+     * @param array<int, mixed> $answer
+     */
+    public function setAnswer(array $answer): void
     {
         $this->answer = $answer;
     }

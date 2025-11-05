@@ -109,5 +109,6 @@ NOTE : You will need to clear your cache after change because the RouteLoader ne
 
 - [@arnaud-ritti](https://github.com/arnaud-ritti)
 - [@JeromeEngelnAdeliom](https://github.com/JeromeEngelnAdeliom)
+- [@jeandaviddaviet](https://github.com/JeanDavidDaviet)
 
   

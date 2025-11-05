@@ -18,6 +18,7 @@ easy:
           entry:
             singular: entry
             plural: entries
+            index: Entries list
             new: New entry
             edit: Edit
             delete: Delete
@@ -27,6 +28,7 @@ easy:
           category:
             singular: une catégorie
             plural: des catégories
+            index: Category list
             new: New category
             edit: Edit
             delete: Delete
