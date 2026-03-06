@@ -81,7 +81,7 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event, EasyFaqCategoryEvent::NAME);
+        $result = $this->container->get('event_dispatcher')->dispatch($event);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
@@ -110,7 +110,7 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event, EasyFaqCategoryEvent::NAME);
+        $result = $this->container->get('event_dispatcher')->dispatch($event);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }

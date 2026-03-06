@@ -73,7 +73,7 @@ class EntryController extends AbstractController
         /**
          * @var EasyFaqEntryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event, EasyFaqEntryEvent::NAME);
+        $result = $this->container->get('event_dispatcher')->dispatch($event);
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
