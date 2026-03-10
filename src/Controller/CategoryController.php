@@ -2,6 +2,7 @@
 
 namespace Adeliom\EasyFaqBundle\Controller;
 
+use Adeliom\EasyCommonBundle\Event\LegacyEventDispatcher;
 use Adeliom\EasyFaqBundle\Event\EasyFaqCategoryEvent;
 use Adeliom\EasyFaqBundle\Repository\CategoryRepository;
 use Adeliom\EasyFaqBundle\Repository\EntryRepository;
@@ -81,7 +82,12 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event);
+        $result = LegacyEventDispatcher::dispatch(
+            $event,
+            $this->container->get('event_dispatcher'),
+            'agence-adeliom/easy-faq-bundle',
+            EasyFaqCategoryEvent::NAME
+        );
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
@@ -110,7 +116,12 @@ class CategoryController extends AbstractController
         /**
          * @var EasyFaqCategoryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event);
+        $result = LegacyEventDispatcher::dispatch(
+            $event,
+            $this->container->get('event_dispatcher'),
+            'agence-adeliom/easy-faq-bundle',
+            EasyFaqCategoryEvent::NAME
+        );
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }

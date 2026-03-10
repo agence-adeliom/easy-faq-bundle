@@ -2,6 +2,7 @@
 
 namespace Adeliom\EasyFaqBundle\Controller;
 
+use Adeliom\EasyCommonBundle\Event\LegacyEventDispatcher;
 use Adeliom\EasyFaqBundle\Event\EasyFaqEntryEvent;
 use Adeliom\EasyFaqBundle\Repository\CategoryRepository;
 use Adeliom\EasyFaqBundle\Repository\EntryRepository;
@@ -73,7 +74,12 @@ class EntryController extends AbstractController
         /**
          * @var EasyFaqEntryEvent $result;
          */
-        $result = $this->container->get('event_dispatcher')->dispatch($event);
+        $result = LegacyEventDispatcher::dispatch(
+            $event,
+            $this->container->get('event_dispatcher'),
+            'agence-adeliom/easy-faq-bundle',
+            EasyFaqEntryEvent::NAME
+        );
 
         return $this->render($result->getTemplate(), $result->getArgs());
     }
